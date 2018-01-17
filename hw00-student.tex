@@ -1,0 +1,83 @@
+\documentclass[11pt]{exam}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathptmx}
+\usepackage{mathpartir} %% for inference rules
+
+\title{Assignment 0: \\
+       Rule Induction}
+\date{Due: Friday, January 26, 2018}
+
+\author{YOUR NAME}
+
+%% Number questions by section
+\renewcommand{\thequestion}{\thesection.\arabic{question}}
+
+%% The rule counter
+\newcounter{rule}\setcounter{rule}{0}
+\newcommand{\rn}{\addtocounter{rule}{1}(\arabic{rule})}
+
+%% Some formatting shortcuts
+\newcommand{\ms}[1]{\ensuremath{\mathsf{#1}}}
+
+\begin{document}
+\maketitle
+
+\section{Course mechanics}
+
+\begin{questions}
+% 1.1  
+\question  
+
+\end{questions}  
+
+\section{Shuffling cards}
+
+\newcommand{\heart}{\ensuremath{\heartsuit}}
+\newcommand{\spade}{\ensuremath{\spadesuit}}
+\newcommand{\club}{\ensuremath{\clubsuit}}
+\newcommand{\dia}{\ensuremath{\diamondsuit}}
+\newcommand{\card}[1]{\ensuremath{#1 \; \ms{card}}}
+
+\newcommand{\emp}{\ensuremath{\ms{nil}}}
+\newcommand{\cons}[2]{\ensuremath{\ms{cons}(#1, #2)}}
+\newcommand{\deck}[1]{\ensuremath{#1 \; \ms{deck}}}
+
+\begin{mathpar}
+  \infer*[right=\rn]{ }{ \card{\heart} }
+  
+  \infer*[right=\rn]{ }{ \card{\spade} }
+  
+  \infer*[right=\rn]{ }{ \card{\club} }
+  
+  \infer*[right=\rn]{ }{ \card{\dia} }
+  \\
+  \infer*[right=\rn]{ }{ \deck{\emp} }
+  
+  \infer*[right=\rn]{
+    \card{c} \\
+    \deck{s}
+  }{
+    \deck{\cons{c}{s}}
+  }
+\end{mathpar}
+
+\begin{questions}
+% 2.1
+\question
+
+% 2.2
+\question
+
+% 2.3
+\question
+
+% 2.4
+\question
+\end{questions}
+
+\section{Cutting cards}
+
+\section{\textbf{Extra credit}: Missing cards}
+
+\end{document}
