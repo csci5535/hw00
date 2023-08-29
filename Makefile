@@ -1,6 +1,6 @@
 .PHONY: all clean cleanall
 
-all: hw00-student.pdf
+all: hw00-student.pdf hw00.pdf
 
 %.pdf: %.tex
 	latexmk -pdf $<

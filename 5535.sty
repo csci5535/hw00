@@ -1,0 +1,277 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{5535}[2023/08/29 CSCI 5535]
+
+\usepackage{fourier}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage[normalem]{ulem}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{mathpartir}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Theorems and Proofs
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{proposition}{Proposition}
+\newtheorem{invariant}{Invariant}
+\newtheorem{property}{Property}
+\newtheorem{condition}{Condition}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{note}{Note}
+\newtheorem*{case}{Case}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Listings
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{listings}
+
+\lstdefinestyle{default}{%
+  basicstyle=\ttfamily,%
+  commentstyle=\sl,%
+  keywordstyle=\bf,%
+  columns=fullflexible,%
+  keepspaces=true,%
+  mathescape,%
+  escapechar=\#%
+}
+
+\lstdefinelanguage{Imp}[]{C}{
+  morekeywords=[1]{print, let,
+    in,throw,try,catch,after,finally,then,lock,unlock,def,call}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tabulars and Arrays
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% toggle math mode and text mode for tabular and array
+\newcolumntype{C}{>{$}c<{$}}
+\newcolumntype{L}{>{$}l<{$}}
+\newcolumntype{R}{>{$}r<{$}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Delimiters
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\set}[1]{\{ #1 \}}
+\newcommand{\tuple}[1]{\langle #1 \rangle}
+\newcommand{\denote}[1]{\llbracket #1 \rrbracket}
+\newcommand{\ucorners}[1]{\ulcorner #1 \urcorner}
+\newcommand{\lcorners}[1]{\llcorner #1 \lrcorner}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Grammars
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\bnfdef}{\mathrel{::=}}
+\newcommand{\bnfalt}{\mid}
+\newcommand{\bnfempty}{\cdot}
+\newcommand{\bnfopt}[1]{\left\langle\, #1 \,\right\rangle}
+
+%% From optparams.sty on CTAN
+\newcommand{\optparams}[2]{%
+\optparams@{#1}{}{#2}%
+}
+\def\optparams@#1#2#3{%
+\@ifnextchar[{%
+\optparams@@{#1}{#2}#3\@nil%
+}{%
+#1#2#3%
+}%
+}
+\def\optparams@@#1#2[#3]#4\@nil[#5]{%
+\optparams@{#1}{#2[#5]}{#4}%
+}
+
+% #1 left text column (default no column), #2 right text width (default l), #3 tabular width
+\newcommand{\grammar@}{}
+\long\def\grammar@[#1][#2][#3]{%
+\grammardec\expandafter
+  \ifthenelse{\equal{#1}{}}{%
+    \ifthenelse{\equal{#2}{}}{%
+      \ifthenelse{\equal{#3}{}}{%
+        \tabular{R@{\;}R@{\;}L@{\quad}l}%
+      }{%
+        \tabular*{#3}{l@{\quad}R@{\;}R@{\;}L@{\quad}l}%
+      }%
+    }{%
+      % #2 has value
+      \ifthenelse{\equal{#3}{}}{%
+        \tabular{l@{\quad}R@{\;}R@{\;}L@{\quad}p{#2}}%
+      }{%
+        \tabular*{#3}{l@{\quad}R@{\;}R@{\;}L@{\quad}p{#2}}%
+      }%
+    }% 
+  }{%
+    % #1 has value
+    \ifthenelse{\equal{#2}{}}{%
+      \ifthenelse{\equal{#3}{}}{%
+        \tabular{#1@{\quad}R@{\;}R@{\;}L@{\quad}l}%
+      }{%
+        \tabular*{#3}{#1@{\quad}R@{\;}R@{\;}L@{\quad}l}%
+      }%
+    }{%
+      \ifthenelse{\equal{#3}{}}{%
+        \tabular{#1@{\quad}R@{\;}R@{\;}L@{\quad}l}%
+      }{%
+        \tabular*{#3}{#1@{\quad}R@{\;}R@{\;}L@{\quad}l}%
+      }%
+    }%
+  }%
+}
+\newcommand{\grammardec}{}
+\newenvironment{grammar}{%
+\optparams{\grammar@}{[][][]}%
+}{
+\expandafter\endtabular\ignorespacesafterend%
+}
+
+% Power Set (modified from http://gene.science.uva.nl/~sjagerde/latex/)
+\DeclareSymbolFont{eulerletters}{U}{eur}{m}{n}%
+\DeclareMathSymbol{\PowersetSym}{\mathord}{eulerletters}{"7D}%
+\newsavebox{\powersetbox}
+\sbox{\powersetbox}{\mbox{\large\ensuremath{\PowersetSym}}}
+\providecommand{\powerset}{\mathopen{\usebox{\powersetbox}}}
+
+\newcommand{\defeq}{\ensuremath{\mathrel{\smash{\stackrel{\mbox{\normalfont\tiny def}}{=}}}}}
+
+\newcommand{\SetName}[1]{\ensuremath{\mathbf{#1}}}
+
+\newcommand{\comment}[1]{[\emph{#1}]}
+
+% Common Sets
+\newcommand{\Nat}{\ensuremath{\mathbb{N}}}
+\newcommand{\Int}{\ensuremath{\mathbb{Z}}}
+\newcommand{\Real}{\ensuremath{\mathbb{R}}}
+\newcommand{\Rational}{\ensuremath{\mathbb{Q}}}
+
+%% Generic
+\newcommand{\expr}{e}
+\newcommand{\Expr}{\SetName{Expr}}
+\newcommand{\num}{n}
+\newcommand{\stmt}{s}
+\newcommand{\VEnv}{E}
+\newcommand{\TEnv}{\Gamma}
+\newcommand{\val}{v}
+\newcommand{\ty}{\tau}
+\newcommand{\addr}{a}
+\newcommand{\assertion}{A }
+\newcommand{\var}{x}
+\newcommand{\Vars}{\SetName{Var}}
+\newcommand{\Ints}{\SetName{Int}}
+\newcommand{\Points}{\SetName{Point}}
+\newcommand{\Asserts}{\SetName{Assert}}
+
+%\newcommand{\step}{\longrightarrow}
+\newcommand{\step}{\longmapsto}
+\newcommand{\evalsto}{\Downarrow}
+\newcommand{\bigstep}{\evalsto}
+
+\newcommand{\steps}[2]{\ensuremath{#1 \step #2}}
+\newcommand{\reduces}[2]{\ensuremath{#1 \step^\ast #2}}
+\newcommand{\eval}[2]{\ensuremath{#1 \Downarrow #2}}
+\newcommand{\subst}[3]{[#1/#2]#3}
+\newcommand{\err}[1]{\ensuremath{#1~\textsf{err}}}
+
+%% Imp
+\newcommand{\Limp}{\textsc{Imp}}
+\newcommand{\mtt}[1]{\ensuremath{\texttt{#1}}}
+\newcommand{\fmtkw}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\aexp}{e}
+\newcommand{\Aexp}{\SetName{Aexp}}
+\newcommand{\bexp}{b}
+\newcommand{\Bexp}{\SetName{Bexp}}
+\newcommand{\bval}{B}
+\newcommand{\Bval}{\mathbb{B}}
+\newcommand{\com}{c}
+\newcommand{\Com}{\SetName{Com}}
+\newcommand{\trans}{s}
+\newcommand{\Trans}{\SetName{Trans}}
+\newcommand{\transsys}{P}
+\newcommand{\transof}[3]{#1
+  \mathrel{\joinrel{\joinrel{\relbar}{\!\![#2]\!\!}}{\mathrel{\shortrightarrow}}} #3}
+\newcommand{\Loc}{\SetName{Loc}}
+\newcommand{\proc}{p}
+\newcommand{\Procs}{\SetName{Procs}}
+\newcommand{\defproc}{d}
+\newcommand{\Defs}{\SetName{Defs}}
+\newcommand{\decls}{D}
+\newcommand{\imptrue}{\fmtkw{true}}
+\newcommand{\impfalse}{\fmtkw{false}}
+\newcommand{\impgets}{\mathrel{\mathord{:=}}}
+\newcommand{\impskip}{\fmtkw{skip}}
+\newcommand{\impifkw}{\fmtkw{if}}
+\newcommand{\impthenkw}{\fmtkw{then}}
+\newcommand{\impelsekw}{\fmtkw{else}}
+\newcommand{\impif}[3]{\ensuremath{\impifkw\;#1\;\impthenkw\;#2\;\impelsekw\;#3}}
+\newcommand{\impwhilekw}{\fmtkw{while}}
+\newcommand{\impdokw}{\fmtkw{do}}
+\newcommand{\impseq}{\mathrel{;}}
+\newcommand{\impwhile}[2]{\ensuremath{\impwhilekw\;#1\;\impdokw\;#2}}
+\newcommand{\impletkw}{\fmtkw{let}}
+\newcommand{\impinkw}{\fmtkw{in}}
+\newcommand{\implet}[3]{\ensuremath{\impletkw\;#1 = #2\;\impinkw\;#3}}
+\newcommand{\impprintkw}{\fmtkw{print}}
+\newcommand{\impprint}[1]{\ensuremath{\impprintkw\;#1}}
+\newcommand{\impguardkw}{\fmtkw{guard}}
+\newcommand{\impguard}[1]{\ensuremath{\impguardkw\;#1}}
+\newcommand{\impcallkw}{\fmtkw{call}}
+\newcommand{\impcall}[2]{\ensuremath{\impcallkw\;#1(#2)}}
+\newcommand{\impdefkw}{\fmtkw{def}}
+\newcommand{\impdef}[3]{\ensuremath{\impdefkw\;#1(#2)\colon #3}}
+\newcommand{\binary}[3]{\ensuremath{#1 \mathbin{#2} #3}}
+\newcommand{\codebinary}[3]{\binary{#1}{\mtt{#2}}{#3}}
+\newcommand{\impthrowkw}{\fmtkw{throw}}
+\newcommand{\imptrykw}{\fmtkw{try}}
+\newcommand{\impcatchkw}{\fmtkw{catch}}
+\newcommand{\impafterkw}{\fmtkw{after}}
+\newcommand{\impfinallykw}{\fmtkw{finally}}
+\newcommand{\impthrow}[1]{\ensuremath{\impthrowkw\;#1}}
+\newcommand{\imptry}[3]{\ensuremath{\imptrykw\;#1\;\impcatchkw\;#2\;#3}}
+\newcommand{\impafter}[2]{\ensuremath{\impafterkw\;#1\;\impfinallykw\;#2}}
+\newcommand{\implockkw}{\fmtkw{lock}}
+\newcommand{\impunlockkw}{\fmtkw{unlock}}
+\newcommand{\implock}[1]{\implockkw\;#1}
+\newcommand{\impunlock}[1]{\impunlockkw\;#1}
+
+% E
+\newcommand{\Lnumstr}{\textbf{\textsf{E}}}
+\newcommand{\Enum}[1]{\texttt{num}[#1]}
+\newcommand{\Estr}[1]{\texttt{str}[#1]}
+\newcommand{\plus}[2]{\texttt{plus}(#1; #2)}
+\newcommand{\mult}[2]{\texttt{times}(#1; #2)}
+\newcommand{\divexp}[2]{\texttt{div}(#1; #2)}
+\newcommand{\cat}[2]{\texttt{cat}(#1; #2)}
+\newcommand{\len}[1]{\texttt{len}(#1)}
+\newcommand{\abst}[2]{#1.#2}
+\newcommand{\letbind}[3]{\texttt{let}(#1; \abst{#2}{#3})}
+
+\newcommand{\proves}{\vdash}
+\newcommand{\hasType}[2]{#1 : #2}
+\newcommand{\typeJ}[3]{#1 \proves \hasType{#2}{#3}}
+\newcommand{\ctx}{\Gamma}
+\newcommand{\emptyCtx}{\emptyset}
+\newcommand{\xCtx}[2]{\ctx, \hasType{#1}{#2}}
+\newcommand{\typeJC}[2]{\typeJ{\ctx}{#1}{#2}}
+\newcommand{\Enumt}{\texttt{num}}
+\newcommand{\Estrt}{\texttt{str}}
+
+% Judgments
+\newcommand{\Jval}[1]{\ensuremath{#1~\textsf{val}}}
+\newcommand{\Jieval}[3]{\ensuremath{\langle #1, #2 \rangle \Downarrow #3}}
+\newcommand{\Jipstep}[3]{\ensuremath{#1 \longrightarrow_{#2} #3}}
+\newcommand{\Jistep}[4]{\ensuremath{\langle #1, #2 \rangle
+    \longrightarrow \langle #3, #4 \rangle}}
+\newcommand{\config}[1]{\tuple{#1}}
